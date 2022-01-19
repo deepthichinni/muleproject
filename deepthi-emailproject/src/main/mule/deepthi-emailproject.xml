@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:email="http://www.mulesoft.org/schema/mule/email" xmlns:file="http://www.mulesoft.org/schema/mule/file"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/file http://www.mulesoft.org/schema/mule/file/current/mule-file.xsd
+http://www.mulesoft.org/schema/mule/email http://www.mulesoft.org/schema/mule/email/current/mule-email.xsd">
+	<http:listener-config name="HTTP_Listener_config" doc:name="HTTP Listener config" doc:id="ba71eff1-5b9d-49f1-af88-6988b88e87c4" >
+		<http:listener-connection host="0.0.0.0" port="8081" />
+	</http:listener-config>
+	<file:config name="File_Config" doc:name="File Config" doc:id="b8d2d0d2-4907-42fa-b458-6b9a5ad341a2" />
+	<email:smtp-config name="Email_SMTP" doc:name="Email SMTP" doc:id="f15c6aae-1d50-4b31-9f28-69d4691491c7" >
+		<email:smtp-connection host="smtp.gmail.com" user="deeptirao514@gmail.com" password="07j11a0514" port="587">
+			<email:properties >
+				<email:property key="mail.smtp.starttls.enable" value="true" />
+			</email:properties>
+		</email:smtp-connection>
+	</email:smtp-config>
+	<flow name="deepthi-emailprojectFlow" doc:id="cbed7521-938e-4d4d-b298-f26d61f4ec6e" >
+		<http:listener doc:name="Listener" doc:id="cd18ca25-c249-4a2c-95df-63fdbe6821e7" config-ref="HTTP_Listener_config" path="abc"/>
+		<email:send doc:name="Send" doc:id="1968e59d-9bc0-46d2-bb4d-f72e68845c16" config-ref="Email_SMTP" fromAddress="deeptirao514@gmail.com">
+			<email:to-addresses >
+				<email:to-address value="raghutungini@gmail.com" />
+			</email:to-addresses>
+			<email:cc-addresses >
+				<email:cc-address value="tunginir@gmail.com" />
+			</email:cc-addresses>
+			<email:headers ><![CDATA[#[output application/java
+---
+{
+	"Key" : "Value"
+}]]]></email:headers>
+		</email:send>
+		<logger level="INFO" doc:name="Logger" doc:id="6f5cba03-2617-40d0-ace8-64fdf3b8f88c" message="hiiiiiiiiii"/>
+	</flow>
+</mule>
